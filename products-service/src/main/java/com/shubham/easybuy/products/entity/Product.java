@@ -1,12 +1,14 @@
 package com.shubham.easybuy.products.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,9 +18,26 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
+    @Id
+    @GeneratedValue
+    @UuidGenerator
     private UUID id;
-    private String name;
-    private String description;
-    private double price;
-    private UUID categoryId;
+
+    private String title;
+    @Column(columnDefinition = "TEXT")
+    private String shortDesc;
+    @Lob
+    private String longDesc;
+    private Double price;
+    private Integer discount;
+
+    private Boolean live = false;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> productImages = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "products",fetch = FetchType.EAGER)
+    private List<Category> categories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 }

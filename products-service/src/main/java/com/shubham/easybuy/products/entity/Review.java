@@ -6,16 +6,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+@Entity
+@Table(name = "reviews")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Review {
 
-
-public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    private String comment;
+    // rating out of 5
+    private Integer rating;
 
-    @ManyToMany(mappedBy = "category")
-    private List<Product> products=new ArrayList<>();
+    @ManyToOne
+    private Product product;
 }
