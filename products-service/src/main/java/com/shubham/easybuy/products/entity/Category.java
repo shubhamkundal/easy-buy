@@ -9,13 +9,18 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Entity
+@Table(name = "category")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
 
-    @ManyToMany(mappedBy = "category")
+    @ManyToMany
     private List<Product> products=new ArrayList<>();
 }
